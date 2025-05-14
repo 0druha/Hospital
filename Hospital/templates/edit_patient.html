@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Редактировать карту пациента{% endblock %}
+
+{% block body %}
+<style>
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+    .btn-primary {
+        background-color: #3172cd;
+        color: white;
+    }
+    .d-flex {
+        display: flex;
+    }
+    .justify-content-end {
+        justify-content: flex-end;
+    }
+    .me-2 {
+        margin-right: 10px;
+    }
+    .mt-4 {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="form-container">
+    <h2>Редактирование карты пациента</h2>
+    <form method="POST" action="{{ url_for('edit_patient', id=patient.id) }}">
+        <h4>Основная информация</h4>
+        <div class="form-group">
+            <label for="f_name" class="form-label">Фамилия:</label>
+            <input type="text" class="form-control" id="f_name" name="f_name"
+                   value="{{ patient.f_name if patient.f_name else '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="s_name" class="form-label">Имя:</label>
+            <input type="text" class="form-control" id="s_name" name="s_name"
+                   value="{{ patient.s_name if patient.s_name else '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="pat" class="form-label">Отчество:</label>
+            <input type="text" class="form-control" id="pat" name="pat"
+                   value="{{ patient.pat if patient.pat else '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="b_date" class="form-label">Дата рождения:</label>
+            <input type="date" class="form-control" id="b_date" name="b_date"
+                   value="{{ patient.b_date.strftime('%Y-%m-%d') if patient.b_date else '' }}" required>
+        </div>
+
+        <h4>Документы</h4>
+        <div class="form-group">
+                <label for="doc_type">Тип основного документа:</label>
+                <select id="doc_type" name="doc_type" class="form-control" required>
+                    <option value="" disabled selected>-- Выберите тип --</option>
+                    <option value="1">Паспорт гражданина РФ</option>
+                    <option value="2">Свидетельство о рождении</option>
+                    <option value="3">Заграничный паспорт</option>
+                </select>
+            </div>
+
+        <div class="form-group">
+            <label for="seria" class="form-label">Серия документа:</label>
+            <input type="text" class="form-control" id="seria" name="seria"
+                   value="{{ patient.documents[0].seria if patient.documents and patient.documents[0].seria else '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="nomer" class="form-label">Номер документа:</label>
+            <input type="text" class="form-control" id="nomer" name="nomer"
+                   value="{{ patient.documents[0].nomer if patient.documents and patient.documents[0].nomer else '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="snils_nomer" class="form-label">Номер СНИЛС:</label>
+            <input type="text" class="form-control" id="snils_nomer" name="snils_nomer"
+                   value="{{ patient.documents[0].snils_nomer if patient.documents else '' }}" required>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary me-2">Отмена</a>
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
