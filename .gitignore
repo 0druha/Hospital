@@ -1,0 +1,75 @@
+### Python ###
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyd
+*.pyo
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+venv/
+.venv/
+env/
+ENV/
+.env
+.env.local
+.env.*.local
+.python-version
+
+### Flask ###
+instance/
+*.log
+flask_session/
+
+### Database ###
+*.sqlite
+*.db
+/migrations/
+!migrations/versions/  # Сохраняем только папку с миграциями
+
+### PostgreSQL ###
+*.dump
+*.backup
+*.psql
+
+### IDE ###
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-*
+*.code-workspace
+
+### System ###
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+*.temp
+
+### Logs ###
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Static files ###
+static/css/*.css.map
+static/js/*.js.map
+
+### Configuration files ###
+config.py
+secrets.py
+*.key
+*.pem
+*.cfg
+*.conf
+
+### Test files ###
+test_data/
+coverage/
+htmlcov/
+.pytest_cache/
