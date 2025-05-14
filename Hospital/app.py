@@ -15,9 +15,9 @@ db = SQLAlchemy(app)
 
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    f_name = db.Column(db.String(100), nullable=False)  # Фамилия
-    s_name = db.Column(db.String(100), nullable=False)  # Имя
-    pat = db.Column(db.String(100))  # Отчество
+    f_name = db.Column(db.String(100), nullable=False) 
+    s_name = db.Column(db.String(100), nullable=False) 
+    pat = db.Column(db.String(100)) 
     b_date = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     documents = db.relationship('Docp', backref='patient', lazy=True, cascade="all, delete-orphan")
@@ -28,7 +28,7 @@ class Docp(db.Model):
     doc_type_id = db.Column(db.Integer, db.ForeignKey('doc_types.id'), nullable=False)
     seria = db.Column(db.String(20))
     nomer = db.Column(db.String(20))
-    snils_nomer = db.Column(db.String(14), nullable=False)  # СНИЛС как строка
+    snils_nomer = db.Column(db.String(14), nullable=False) 
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
 
@@ -37,15 +37,6 @@ class DocType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     documents = db.relationship('Docp', backref='doc_type', lazy=True)
-
-
-
-
-
-
-
-
-
 
 with app.app_context():
     db.create_all()
@@ -92,7 +83,6 @@ def add_patient():
         except Exception as e:
             db.session.rollback()
             return f"Произошла ошибка: {str(e)}"
-
     return render_template('add_patient.html')
 
 
@@ -111,10 +101,8 @@ def delete_patient(id):
 @app.route('/patients/<int:id>/edit_patient', methods=['GET', 'POST'])
 def edit_patient(id):
     patient = Patient.query.get_or_404(id)
-
     if request.method == 'POST':
         try:
-            # Обновление данных пациента
             patient.f_name = request.form.get('f_name', patient.f_name)
             patient.s_name = request.form.get('s_name', patient.s_name)
             patient.pat = request.form.get('pat', patient.pat)
@@ -126,9 +114,8 @@ def edit_patient(id):
                     return redirect(url_for('edit_patient', id=id))
 
 
-            # Обновление документов пациента
 
-            docp = patient.documents[0]  # Берем первый документ
+            docp = patient.documents[0]  
             docp.doc_type_id = request.form.get('doc_type', docp.doc_type_id)
             docp.seria = request.form.get('seria', docp.seria)
             docp.nomer = request.form.get('nomer', docp.nomer)
@@ -141,18 +128,12 @@ def edit_patient(id):
         except Exception as e:
             db.session.rollback()
 
-    # Для GET-запроса
     return render_template(
         'edit_patient.html',
         patient=patient,
         patient_id=id,
         current_date=datetime.now().strftime('%Y-%m-%d')
     )
-
-
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
